@@ -18,10 +18,17 @@ class DeltaTouchClass {
 
   start(e) {
     clearInterval(this.endTimer)
+    if (e.touches.length > 1) {
+      this.lastTouch = null
+      this.lastDelta = null
+      return
+    }
+    e.preventDefault()
     this.lastTouch = this.eXY(e)
   }
 
   move(e, func) {
+    if (e.touches.length > 1 || !this.lastTouch) return
     let delta = this.lastTouch - this.eXY(e)
     this.lastTouch = this.eXY(e)
     this.touchDeltas.push(delta)
